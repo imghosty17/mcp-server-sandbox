@@ -1,0 +1,12 @@
+[project]
+name = "ado-mcp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "azure-devops>=7.1.0b4",
+    "fastapi>=0.115.11",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.4.1",
+]
