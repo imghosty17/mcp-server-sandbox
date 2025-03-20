@@ -64,7 +64,7 @@ async def create_project(project_name: str):
 
     # Check if the project already exists
     if await check_project_exist(project_name, core_client):
-        return f"{project_name} Already Exist Project"
+        return f"{project_name} Already Exists"
 
     # Define the new project
     new_project = TeamProject(
