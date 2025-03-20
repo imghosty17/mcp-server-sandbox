@@ -1,6 +1,5 @@
 from mcp.server.fastmcp import FastMCP
 import os
-from fastapi import HTTPException
 from azure.devops.connection import Connection
 from msrest.authentication import BasicAuthentication
 from dotenv import load_dotenv
@@ -12,7 +11,7 @@ import time
 # Load environment variables from a .env file
 load_dotenv()
 
-mcp = FastMCP("docs")
+mcp = FastMCP("ado")
 
 
 # Function to fetch Azure DevOps clients
@@ -21,10 +20,7 @@ async def get_azure_clients():
     organization_name = os.getenv("AZURE_DEVOPS_DESTINATION_ORGANIZATION")
 
     if not personal_access_token or not organization_name:
-        raise HTTPException(
-            status_code=500,
-            detail="Missing Azure DevOps credentials in environment variables.",
-        )
+        raise ValueError("Missing Azure DevOps credentials in environment variables.")
 
     organization_url = f"https://dev.azure.com/{organization_name}"
     credentials = BasicAuthentication("", personal_access_token)
@@ -37,9 +33,7 @@ async def get_azure_clients():
             "operations_client": connection.clients.get_operations_client(),
         }
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Failed to create Azure DevOps clients: {e}"
-        )
+        raise Exception(f"Failed to create Azure DevOps clients: {e}")
 
 
 async def check_project_exist(project_name: str, core_client: CoreClient) -> bool:
